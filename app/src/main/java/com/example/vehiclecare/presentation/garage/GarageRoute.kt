@@ -6,7 +6,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.vehiclecare.presentation.navigation.AppDestination
 
 @Composable
-fun GarageRoute(onOpenVehicle: (Long) -> Unit, onNavigate: (AppDestination) -> Unit, viewModel: GarageViewModel = hiltViewModel()) {
+fun GarageRoute(
+    onOpenVehicle: (Long) -> Unit,
+    onNavigate: (AppDestination) -> Unit,
+    viewModel: GarageViewModel = hiltViewModel()
+) {
     val state = viewModel.uiState.collectAsStateWithLifecycle().value
     GarageScreen(state = state, onEvent = { event ->
         viewModel.onEvent(event)

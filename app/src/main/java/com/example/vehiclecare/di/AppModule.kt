@@ -17,13 +17,19 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-    @Binds abstract fun bindVehicleRepository(implementation: OfflineFirstVehicleRepository): VehicleRepository
+    @Binds
+    abstract fun bindVehicleRepository(implementation: OfflineFirstVehicleRepository): VehicleRepository
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    @Provides @Singleton fun provideDatabase(@ApplicationContext context: Context): VehicleDatabase =
-        Room.databaseBuilder(context, VehicleDatabase::class.java, "vehicle-care.db").fallbackToDestructiveMigration().build()
-    @Provides fun provideVehicleDao(database: VehicleDatabase): VehicleDao = database.vehicleDao()
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): VehicleDatabase =
+        Room.databaseBuilder(context, VehicleDatabase::class.java, "vehicle-care.db")
+            .fallbackToDestructiveMigration().build()
+
+    @Provides
+    fun provideVehicleDao(database: VehicleDatabase): VehicleDao = database.vehicleDao()
 }

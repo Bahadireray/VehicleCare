@@ -41,38 +41,81 @@ import com.example.vehiclecare.presentation.navigation.ProfileDestination
 import com.example.vehiclecare.presentation.navigation.ServicesDestination
 
 @Composable
-fun GarageScreen(state: GarageUiState, onEvent: (GarageUiEvent) -> Unit, onNavigate: (AppDestination) -> Unit) {
-    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+fun GarageScreen(
+    state: GarageUiState,
+    onEvent: (GarageUiEvent) -> Unit,
+    onNavigate: (AppDestination) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         item {
-            Text(stringResource(R.string.garage_title), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-            Text(stringResource(R.string.garage_subtitle), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(R.string.garage_title),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                stringResource(R.string.garage_subtitle),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
         item {
             Card(colors = CardDefaults.cardColors(containerColor = Color(0xFF006B5F))) {
                 Column(Modifier.padding(20.dp)) {
-                    Text("2 actions need attention", color = Color.White, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                    Spacer(Modifier.height(6.dp)); Text("Oil service and insurance renewal are coming up.", color = Color(0xFFD2FFF5))
+                    Text(
+                        "2 actions need attention",
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(Modifier.height(6.dp)); Text(
+                    "Oil service and insurance renewal are coming up.",
+                    color = Color(0xFFD2FFF5)
+                )
                 }
             }
         }
         item {
-            OutlinedTextField(value = state.filter, onValueChange = { onEvent(GarageUiEvent.FilterChanged(it)) }, label = { Text("Search vehicles") }, leadingIcon = { Icon(Icons.Outlined.Search, null) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+            OutlinedTextField(
+                value = state.filter,
+                onValueChange = { onEvent(GarageUiEvent.FilterChanged(it)) },
+                label = { Text("Search vehicles") },
+                leadingIcon = { Icon(Icons.Outlined.Search, null) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
         }
         item { QuickActions(onNavigate) }
-        item { Text("My vehicles", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+        item {
+            Text(
+                "My vehicles",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
         when (val content = state.vehicles) {
             UiLoadState.Loading -> item { Text("Loading your garage…") }
             is UiLoadState.Error -> item { Text("Could not load vehicles") }
             is UiLoadState.Success -> items(content.data, key = { it.id }) { vehicle ->
-                VehicleCard(vehicle = vehicle, onClick = { onEvent(GarageUiEvent.VehicleClicked(vehicle.id)) })
+                VehicleCard(
+                    vehicle = vehicle,
+                    onClick = { onEvent(GarageUiEvent.VehicleClicked(vehicle.id)) })
             }
         }
     }
 }
 
-@Composable private fun QuickActions(onNavigate: (AppDestination) -> Unit) {
+@Composable
+private fun QuickActions(onNavigate: (AppDestination) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Quick access", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(
+            "Quick access",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
         androidx.compose.foundation.layout.Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickChip("Plan", Icons.Outlined.Today) { onNavigate(PlannerDestination) }
             QuickChip("Documents", Icons.Outlined.Description) { onNavigate(DocumentsDestination) }
@@ -82,6 +125,16 @@ fun GarageScreen(state: GarageUiState, onEvent: (GarageUiEvent) -> Unit, onNavig
     }
 }
 
-@Composable private fun QuickChip(label: String, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
-    AssistChip(onClick = onClick, label = { Text(label) }, leadingIcon = { Icon(icon, null) }, colors = AssistChipDefaults.assistChipColors())
+@Composable
+private fun QuickChip(
+    label: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit
+) {
+    AssistChip(
+        onClick = onClick,
+        label = { Text(label) },
+        leadingIcon = { Icon(icon, null) },
+        colors = AssistChipDefaults.assistChipColors()
+    )
 }

@@ -20,6 +20,7 @@ class ErrorMapper @Inject constructor() {
             else -> AppError.Unknown
         }
     }
+
     fun asUiText(error: AppError): UiText = when (error) {
         AppError.Network -> UiText.Resource(R.string.error_network)
         AppError.Unknown -> UiText.Resource(R.string.error_unknown)

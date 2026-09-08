@@ -20,8 +20,14 @@ class GarageViewModel @Inject constructor(
 ) : ViewModel() {
     private val filter = MutableStateFlow("")
     val uiState = combine(observeVehicles(), filter) { vehicles, query ->
-        GarageUiState(UiLoadState.Success(vehicles.filter { "${it.brand} ${it.model} ${it.plate}".contains(query, ignoreCase = true) }), query)
+        GarageUiState(UiLoadState.Success(vehicles.filter {
+            "${it.brand} ${it.model} ${it.plate}".contains(
+                query,
+                ignoreCase = true
+            )
+        }), query)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), GarageUiState())
+
     fun onEvent(event: GarageUiEvent) = when (event) {
         is GarageUiEvent.FilterChanged -> filter.value = event.value
         is GarageUiEvent.DefaultVehicleClicked -> viewModelScope.launch { setDefaultVehicle(event.id) }

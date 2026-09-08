@@ -48,9 +48,11 @@ fun VehicleCard(vehicle: Vehicle, onClick: () -> Unit, modifier: Modifier = Modi
     ) {
         Row(modifier = Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Outlined.DirectionsCar, null, tint = tint, modifier = Modifier.size(42.dp))
-            Column(modifier = Modifier
-                .weight(1f)
-                .padding(start = 14.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 14.dp)
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         "${vehicle.brand} ${vehicle.model}",
@@ -103,9 +105,11 @@ fun MaintenanceRow(task: MaintenanceTask, onClick: () -> Unit = {}) {
     ) {
         Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Outlined.Build, null, tint = MaterialTheme.colorScheme.primary)
-            Column(modifier = Modifier
-                .weight(1f)
-                .padding(start = 12.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 12.dp)
+            ) {
                 Text(task.title, fontWeight = FontWeight.Medium)
                 Text(
                     task.dueLabel(),

@@ -9,6 +9,7 @@ data class VehicleDetailUiState(
     val maintenance: List<MaintenanceTask> = emptyList(),
     val showMileageDialog: Boolean = false,
 )
+
 sealed interface VehicleDetailUiEvent {
     data object MileageClicked : VehicleDetailUiEvent
     data object MileageDialogDismissed : VehicleDetailUiEvent

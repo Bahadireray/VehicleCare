@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 
 @HiltAndroidApp
 class VehicleCareApplication : Application() {
-    @Inject lateinit var repository: OfflineFirstVehicleRepository
+    @Inject
+    lateinit var repository: OfflineFirstVehicleRepository
     override fun onCreate() {
         super.onCreate()
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch { repository.seedIfNeeded() }

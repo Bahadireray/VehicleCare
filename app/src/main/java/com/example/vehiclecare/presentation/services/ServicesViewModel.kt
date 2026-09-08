@@ -11,8 +11,18 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
-@HiltViewModel class ServicesViewModel @Inject constructor(observe: ObserveServicesUseCase) : ViewModel() {
+@HiltViewModel
+class ServicesViewModel @Inject constructor(observe: ObserveServicesUseCase) : ViewModel() {
     private val openOnly = MutableStateFlow(false)
-    val uiState = combine(observe(), openOnly) { services, onlyOpen -> ServicesUiState(UiLoadState.Success(if (onlyOpen) services.filter { it.isOpenNow } else services), onlyOpen) }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ServicesUiState())
-    fun onEvent(event: ServicesUiEvent) { if (event is ServicesUiEvent.OpenOnlyToggled) openOnly.value = !openOnly.value }
+    val uiState = combine(
+        observe(),
+        openOnly
+    ) { services, onlyOpen ->
+        ServicesUiState(UiLoadState.Success(if (onlyOpen) services.filter { it.isOpenNow } else services),
+            onlyOpen)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ServicesUiState())
+
+    fun onEvent(event: ServicesUiEvent) {
+        if (event is ServicesUiEvent.OpenOnlyToggled) openOnly.value = !openOnly.value
+    }
 }

@@ -28,7 +28,9 @@ fun VehicleCareApp() {
             )
         }
         entry<VehicleDetailDestination> { destination ->
-            VehicleDetailRoute(vehicleId = destination.vehicleId, onBack = { backStack.removeLastOrNull() })
+            VehicleDetailRoute(
+                vehicleId = destination.vehicleId,
+                onBack = { backStack.removeLastOrNull() })
         }
         entry<PlannerDestination> { PlannerRoute(onNavigate = { backStack.add(it) }) }
         entry<DocumentsDestination> { DocumentsRoute(onNavigate = { backStack.add(it) }) }
@@ -39,7 +41,10 @@ fun VehicleCareApp() {
         NavDisplay(
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
-            entryDecorators = listOf(rememberSaveableStateHolderNavEntryDecorator(), rememberViewModelStoreNavEntryDecorator()),
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator()
+            ),
             entryProvider = entries,
             modifier = Modifier.fillMaxSize(),
         )

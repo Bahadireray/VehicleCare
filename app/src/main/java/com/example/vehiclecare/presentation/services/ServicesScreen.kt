@@ -25,20 +25,67 @@ import com.example.vehiclecare.R
 import com.example.vehiclecare.presentation.components.StatusPill
 import com.example.vehiclecare.presentation.navigation.AppDestination
 
-@Composable fun ServicesScreen(state: ServicesUiState, onEvent: (ServicesUiEvent) -> Unit, onNavigate: (AppDestination) -> Unit) {
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item { Text(stringResource(R.string.service_finder), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold) }
-        item { Text("Mock location results, ranked by distance and rating.", color = MaterialTheme.colorScheme.onSurfaceVariant) }
-        item { FilterChip(selected = state.showOpenOnly, onClick = { onEvent(ServicesUiEvent.OpenOnlyToggled) }, label = { Text("Open now") }) }
+@Composable
+fun ServicesScreen(
+    state: ServicesUiState,
+    onEvent: (ServicesUiEvent) -> Unit,
+    onNavigate: (AppDestination) -> Unit
+) {
+    LazyColumn(
+        Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Text(
+                stringResource(R.string.service_finder),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        item {
+            Text(
+                "Mock location results, ranked by distance and rating.",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        item {
+            FilterChip(
+                selected = state.showOpenOnly,
+                onClick = { onEvent(ServicesUiEvent.OpenOnlyToggled) },
+                label = { Text("Open now") })
+        }
         when (val content = state.services) {
             UiLoadState.Loading -> item { Text("Finding nearby services…") }
             is UiLoadState.Error -> item { Text("Could not load services") }
             is UiLoadState.Success -> items(content.data) { service ->
                 androidx.compose.material3.Card {
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Outlined.LocationOn, null, tint = MaterialTheme.colorScheme.primary)
-                        Column(Modifier.weight(1f).padding(start = 12.dp)) { Text(service.name, fontWeight = FontWeight.SemiBold); Text("${service.distanceKm} km • ★ ${service.rating} (${service.reviewCount})", color = MaterialTheme.colorScheme.onSurfaceVariant); Text(service.specialties.joinToString(" · "), style = MaterialTheme.typography.bodySmall) }
-                        StatusPill(if (service.isOpenNow) "OPEN" else "CLOSED", if (service.isOpenNow) androidx.compose.ui.graphics.Color(0xFF137333) else androidx.compose.ui.graphics.Color(0xFF9A6500))
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column(Modifier
+                            .weight(1f)
+                            .padding(start = 12.dp)) {
+                            Text(
+                                service.name,
+                                fontWeight = FontWeight.SemiBold
+                            ); Text(
+                            "${service.distanceKm} km • ★ ${service.rating} (${service.reviewCount})",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        ); Text(
+                            service.specialties.joinToString(" · "),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        }
+                        StatusPill(
+                            if (service.isOpenNow) "OPEN" else "CLOSED",
+                            if (service.isOpenNow) androidx.compose.ui.graphics.Color(0xFF137333) else androidx.compose.ui.graphics.Color(
+                                0xFF9A6500
+                            )
+                        )
                     }
                 }
             }

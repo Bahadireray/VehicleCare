@@ -26,19 +26,58 @@ import com.example.vehiclecare.presentation.navigation.AppDestination
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-@Composable fun DocumentsScreen(state: DocumentsUiState, onEvent: (DocumentsUiEvent) -> Unit, onNavigate: (AppDestination) -> Unit) {
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item { Text(stringResource(R.string.documents), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold) }
-        item { Text("Expiry monitoring for insurance, inspection and registration.", color = MaterialTheme.colorScheme.onSurfaceVariant) }
+@Composable
+fun DocumentsScreen(
+    state: DocumentsUiState,
+    onEvent: (DocumentsUiEvent) -> Unit,
+    onNavigate: (AppDestination) -> Unit
+) {
+    LazyColumn(
+        Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Text(
+                stringResource(R.string.documents),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        item {
+            Text(
+                "Expiry monitoring for insurance, inspection and registration.",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
         when (val content = state.documents) {
             UiLoadState.Loading -> item { Text("Loading documents…") }
             is UiLoadState.Error -> item { Text("Could not load documents") }
             is UiLoadState.Success -> items(content.data) { document ->
                 val days = ChronoUnit.DAYS.between(LocalDate.now(), document.expiresAt)
-                Card(colors = CardDefaults.cardColors(containerColor = if (days < 30) Color(0xFFFFEDEA) else MaterialTheme.colorScheme.surfaceVariant)) {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (days < 30) Color(
+                            0xFFFFEDEA
+                        ) else MaterialTheme.colorScheme.surfaceVariant
+                    )
+                ) {
                     Column(Modifier.padding(16.dp)) {
-                        Row { Text(document.title, Modifier.weight(1f), fontWeight = FontWeight.SemiBold); StatusPill(if (days < 30) "${days} DAYS" else "ACTIVE", if (days < 30) Color(0xFFBA1A1A) else Color(0xFF137333)) }
-                        Text("Expires ${document.expiresAt.formatShort()} • ${document.type.name.lowercase().replaceFirstChar(Char::titlecase)}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Row {
+                            Text(
+                                document.title,
+                                Modifier.weight(1f),
+                                fontWeight = FontWeight.SemiBold
+                            ); StatusPill(
+                            if (days < 30) "${days} DAYS" else "ACTIVE",
+                            if (days < 30) Color(0xFFBA1A1A) else Color(0xFF137333)
+                        )
+                        }
+                        Text(
+                            "Expires ${document.expiresAt.formatShort()} • ${
+                                document.type.name.lowercase().replaceFirstChar(Char::titlecase)
+                            }", color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
             }

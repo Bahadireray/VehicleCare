@@ -19,14 +19,40 @@ import com.example.vehiclecare.R
 import com.example.vehiclecare.presentation.components.MaintenanceRow
 import com.example.vehiclecare.presentation.navigation.AppDestination
 
-@Composable fun PlannerScreen(state: PlannerUiState, onEvent: (PlannerUiEvent) -> Unit, onNavigate: (AppDestination) -> Unit) {
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item { Text(stringResource(R.string.maintenance_plan), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold) }
-        item { Text("For Toyota Corolla Hybrid • time and mileage triggers", color = MaterialTheme.colorScheme.onSurfaceVariant) }
+@Composable
+fun PlannerScreen(
+    state: PlannerUiState,
+    onEvent: (PlannerUiEvent) -> Unit,
+    onNavigate: (AppDestination) -> Unit
+) {
+    LazyColumn(
+        Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Text(
+                stringResource(R.string.maintenance_plan),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        item {
+            Text(
+                "For Toyota Corolla Hybrid • time and mileage triggers",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
         when (val data = state.items) {
             UiLoadState.Loading -> item { Text("Building your plan…") }
             is UiLoadState.Error -> item { Text("Could not load maintenance") }
-            is UiLoadState.Success -> items(data.data) { task -> MaintenanceRow(task) { onEvent(PlannerUiEvent.TaskCompleted(task.id)) } }
+            is UiLoadState.Success -> items(data.data) { task ->
+                MaintenanceRow(task) {
+                    onEvent(
+                        PlannerUiEvent.TaskCompleted(task.id)
+                    )
+                }
+            }
         }
     }
 }

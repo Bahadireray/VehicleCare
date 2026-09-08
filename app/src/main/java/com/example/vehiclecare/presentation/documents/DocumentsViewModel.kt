@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-@HiltViewModel class DocumentsViewModel @Inject constructor(observe: ObserveDocumentsUseCase) : ViewModel() {
-    val uiState = observe().map { DocumentsUiState(UiLoadState.Success(it)) }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), DocumentsUiState())
+@HiltViewModel
+class DocumentsViewModel @Inject constructor(observe: ObserveDocumentsUseCase) : ViewModel() {
+    val uiState = observe().map { DocumentsUiState(UiLoadState.Success(it)) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), DocumentsUiState())
+
     fun onEvent(event: DocumentsUiEvent) = Unit
 }
