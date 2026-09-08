@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Araç Bakım Koçu</string>
+    <string name="error_network">Bağlantı yok. Yerel olarak kayıtlı verileriniz kullanılabilir.</string>
+    <string name="error_unknown">Bir şeyler ters gitti. Lütfen tekrar deneyin.</string>
+    <string name="vehicle_not_found">Araç bulunamadı.</string>
+    <string name="garage_title">İyi günler, Alex</string>
+    <string name="garage_subtitle">Garajınız sakin ve kontrol altında.</string>
+    <string name="maintenance_plan">Bakım planı</string>
+    <string name="documents">Belgeler</string>
+    <string name="service_finder">Servis bul</string>
+    <string name="profile_preferences">Profil ve tercihler</string>
+    <string name="update_mileage">Kilometre güncelle</string>
+    <string name="save">Kaydet</string>
+    <string name="cancel">İptal</string>
+</resources>

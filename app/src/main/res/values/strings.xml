@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Vehicle Care Coach</string>
+    <string name="error_network">No connection. Your locally saved data is still available.</string>
+    <string name="error_unknown">Something went wrong. Please try again.</string>
+    <string name="vehicle_not_found">Vehicle could not be found.</string>
+    <string name="garage_title">Good afternoon, Alex</string>
+    <string name="garage_subtitle">Your garage is calm and under control.</string>
+    <string name="maintenance_plan">Maintenance plan</string>
+    <string name="documents">Documents</string>
+    <string name="service_finder">Find a service</string>
+    <string name="profile_preferences">Profile &amp; preferences</string>
+    <string name="update_mileage">Update mileage</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+</resources>
